@@ -106,6 +106,37 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+        /* App Screen Entry & Hover Animations */
+        .app-screen {
+            opacity: 0;
+            transform: scale(0.6) translateY(60px);
+            transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center center;
+            will-change: transform, opacity;
+        }
+        .app-screen.is-visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        
+        /* Inner card scaling for horizontal scroll */
+        .app-card-inner {
+            --scroll-scale: 1;
+            transform: scale(var(--scroll-scale));
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+            will-change: transform;
+        }
+        .app-screen:hover .app-card-inner {
+            transform: scale(1.05) translateY(-10px) !important;
+        }
+
+        /* Staggered delays for the horizontal sequence */
+        .app-screen:nth-child(1) { transition-delay: 0.1s; }
+        .app-screen:nth-child(2) { transition-delay: 0.2s; }
+        .app-screen:nth-child(3) { transition-delay: 0.3s; }
+        .app-screen:nth-child(4) { transition-delay: 0.4s; }
+        .app-screen:nth-child(5) { transition-delay: 0.5s; }
+
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 5px; }
@@ -547,7 +578,7 @@
         </section>
 
         <!-- App Overview Section -->
-        <section id="app-overview" class="relative py-24 bg-slate-50 dark:bg-black/50 border-t border-gray-200 dark:border-gray-900 overflow-hidden">
+        <section id="app-overview" class="relative py-24 bg-slate-50 dark:bg-black/50 border-t border-gray-200 dark:border-gray-900 overflow-hidden perspective-1000">
             <div class="max-w-7xl mx-auto px-6 relative z-10">
                 <div class="fade-in-section text-center mb-16">
                     <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-4">App Overview</h2>
@@ -556,31 +587,41 @@
             </div>
 
             <!-- Horizontal Scroll Container -->
-            <div class="fade-in-section flex overflow-x-auto gap-6 md:gap-8 px-6 md:px-[10vw] pb-12 snap-x snap-mandatory hide-scrollbar">
+            <div id="app-carousel" class="flex overflow-x-auto gap-6 md:gap-8 px-6 md:px-[10vw] pb-16 pt-8 snap-x snap-mandatory hide-scrollbar">
                 <!-- App Screen 1 -->
-                <div class="snap-center shrink-0 w-[260px] md:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl overflow-hidden relative group">
-                    <img src="image1.jpg" alt="App Screen 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop';">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="app-screen snap-center shrink-0 w-[260px] md:w-[300px]">
+                    <div class="app-card-inner w-full aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl hover:shadow-[0_30px_60px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_30px_60px_rgba(168,85,247,0.3)] overflow-hidden relative group">
+                        <img src="image1.jpg" alt="App Screen 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                 </div>
                 <!-- App Screen 2 -->
-                <div class="snap-center shrink-0 w-[260px] md:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl overflow-hidden relative group">
-                    <img src="image2.jpg" alt="App Screen 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?q=80&w=400&auto=format&fit=crop';">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="app-screen snap-center shrink-0 w-[260px] md:w-[300px]">
+                    <div class="app-card-inner w-full aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl hover:shadow-[0_30px_60px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_30px_60px_rgba(168,85,247,0.3)] overflow-hidden relative group">
+                        <img src="image2.jpg" alt="App Screen 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?q=80&w=400&auto=format&fit=crop';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                 </div>
                 <!-- App Screen 3 -->
-                <div class="snap-center shrink-0 w-[260px] md:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl overflow-hidden relative group">
-                    <img src="image3.jpg" alt="App Screen 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?q=80&w=400&auto=format&fit=crop';">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="app-screen snap-center shrink-0 w-[260px] md:w-[300px]">
+                    <div class="app-card-inner w-full aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl hover:shadow-[0_30px_60px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_30px_60px_rgba(168,85,247,0.3)] overflow-hidden relative group">
+                        <img src="image3.jpg" alt="App Screen 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?q=80&w=400&auto=format&fit=crop';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                 </div>
                 <!-- App Screen 4 -->
-                <div class="snap-center shrink-0 w-[260px] md:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl overflow-hidden relative group">
-                    <img src="image4.jpg" alt="App Screen 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=400&auto=format&fit=crop';">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="app-screen snap-center shrink-0 w-[260px] md:w-[300px]">
+                    <div class="app-card-inner w-full aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl hover:shadow-[0_30px_60px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_30px_60px_rgba(168,85,247,0.3)] overflow-hidden relative group">
+                        <img src="image4.jpg" alt="App Screen 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=400&auto=format&fit=crop';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                 </div>
                 <!-- App Screen 5 -->
-                <div class="snap-center shrink-0 w-[260px] md:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl overflow-hidden relative group">
-                    <img src="image5.jpg" alt="App Screen 5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1601784551446-20c9e07cd5d3?q=80&w=400&auto=format&fit=crop';">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="app-screen snap-center shrink-0 w-[260px] md:w-[300px]">
+                    <div class="app-card-inner w-full aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl hover:shadow-[0_30px_60px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_30px_60px_rgba(168,85,247,0.3)] overflow-hidden relative group">
+                        <img src="image5.jpg" alt="App Screen 5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://images.unsplash.com/photo-1601784551446-20c9e07cd5d3?q=80&w=400&auto=format&fit=crop';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -915,7 +956,40 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
+        document.querySelectorAll('.fade-in-section, .app-screen').forEach(el => observer.observe(el));
+
+        // 5. Dynamic App Carousel Scroll Scaling
+        const appCarousel = document.getElementById('app-carousel');
+        const appScreens = document.querySelectorAll('.app-screen');
+
+        if (appCarousel) {
+            const updateCarouselScale = () => {
+                const carouselCenter = appCarousel.getBoundingClientRect().left + appCarousel.offsetWidth / 2;
+                
+                appScreens.forEach(screen => {
+                    const innerCard = screen.querySelector('.app-card-inner');
+                    if (innerCard) {
+                        const rect = screen.getBoundingClientRect();
+                        const screenCenter = rect.left + rect.width / 2;
+                        const distance = Math.abs(carouselCenter - screenCenter);
+                        
+                        // Scale the focused center item fully to 1, side items scale down to 0.85
+                        const maxDistance = appCarousel.offsetWidth / 1.5;
+                        let scale = 1 - (distance / maxDistance) * 0.15;
+                        scale = Math.max(0.85, Math.min(1, scale));
+                        
+                        // Set CSS custom property to adjust the inner wrapper
+                        innerCard.style.setProperty('--scroll-scale', scale);
+                    }
+                });
+            };
+
+            // Trigger on scroll and resize
+            appCarousel.addEventListener('scroll', updateCarouselScale, { passive: true });
+            window.addEventListener('resize', updateCarouselScale);
+            // Initial call to set state
+            setTimeout(updateCarouselScale, 100); 
+        }
     </script>
 </body>
 </html>
